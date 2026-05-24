@@ -1,58 +1,185 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🥐 Bakery Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A simple and efficient bakery management web application built with **Laravel** (PHP) and **SQLite**. It helps bakery owners manage products, orders, and inventory in a clean digital way.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Products** — Add, edit, and delete bakery items with price and stock levels
+- **Orders** — Create and manage customer orders with automatic stock updates
+- **Inventory** — Log restocks, adjustments, and sales
+- **Dashboard** — Overview of total products, orders, revenue, low stock alerts, and recent orders
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🛠 Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Layer | Technology |
+|---|---|
+| Backend | Laravel 11 (PHP) |
+| Frontend | Blade Templates + Tailwind CSS |
+| Database | SQLite |
+| Build Tool | Vite |
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## ⚙️ Requirements
 
-## Agentic Development
+Make sure you have the following installed on your Mac:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- PHP 8.2+
+- Composer
+- Node.js & npm
+
+---
+
+## 🚀 Installation & Setup
+
+### 1. Clone the Repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/YOUR_USERNAME/bakery-system.git
+cd bakery-system
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Install PHP Dependencies
 
-## Contributing
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Install Node Dependencies
 
-## Code of Conduct
+```bash
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Set Up Environment File
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Set Up the Database
 
-## License
+Open the `.env` file and make sure the database section looks like this:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```env
+DB_CONNECTION=sqlite
+```
+
+Comment out or delete these lines:
+```env
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=laravel
+# DB_USERNAME=root
+# DB_PASSWORD=
+```
+
+Then create the SQLite file:
+
+```bash
+touch database/database.sqlite
+```
+
+### 6. Run Migrations
+
+```bash
+php artisan migrate
+```
+
+### 7. Start the Servers
+
+Open **two terminal tabs**:
+
+**Tab 1 — Laravel backend:**
+```bash
+php artisan serve
+```
+
+**Tab 2 — Vite frontend:**
+```bash
+npm run dev
+```
+
+### 8. Open the App
+
+Visit **http://localhost:8000** in your browser.
+
+---
+
+## 📖 How to Use
+
+### Products
+- Go to **Products** in the navbar
+- Click **+ Add Product** to add a new bakery item
+- Fill in the name, category, price, and stock
+- Use **Edit** to update or **Delete** to remove a product
+
+### Orders
+- Go to **Orders** in the navbar
+- Click **+ New Order** to create a customer order
+- Select a product, enter quantity and set the status
+- Stock is automatically updated based on order status:
+  - **Pending / Completed** → stock is deducted
+  - **Cancelled** → stock is restored
+  - **Deleted** → stock is restored (if not cancelled)
+
+### Inventory
+- Go to **Inventory** in the navbar
+- Click **+ Add Record** to log a stock movement
+- Choose the type:
+  - **Restock** → adds to product stock (new items arrived)
+  - **Adjustment** → removes from product stock (waste, damage, expiry)
+  - **Sale** → record only, no stock change (manual offline note)
+
+### Dashboard
+- The home page shows a full overview:
+  - Total products, orders, and revenue
+  - Order breakdown by status (pending, completed, cancelled)
+  - Low stock alerts (products with 5 or fewer items)
+  - 5 most recent orders
+
+---
+
+## 📁 Project Structure
+bakery-system/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── DashboardController.php
+│   │   ├── ProductController.php
+│   │   ├── OrderController.php
+│   │   └── InventoryController.php
+│   └── Models/
+│       ├── Product.php
+│       ├── Order.php
+│       └── Inventory.php
+├── database/
+│   ├── migrations/
+│   └── database.sqlite
+├── resources/
+│   └── views/
+│       ├── layouts/app.blade.php
+│       ├── dashboard.blade.php
+│       ├── products/
+│       ├── orders/
+│       └── inventories/
+└── routes/
+└── web.php
+---
+
+## 🔮 Planned Features (v2)
+
+- 🔐 Staff login and authentication
+- 📊 Sales and stock charts
+- 🖨️ Export orders as PDF
+- 🔔 Low stock email alerts
+
+---
+
+## 👤 Author
+
+Built by **Sofonyas** — [Pixel Creatives](https://github.com/sofonyast)
