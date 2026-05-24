@@ -144,8 +144,9 @@ Visit **http://localhost:8000** in your browser.
   - 5 most recent orders
 
 ---
-
 ## 📁 Project Structure
+
+```
 bakery-system/
 ├── app/
 │   ├── Http/Controllers/
@@ -168,7 +169,8 @@ bakery-system/
 │       ├── orders/
 │       └── inventories/
 └── routes/
-└── web.php
+    └── web.php
+```
 ---
 
 ## 🔮 Planned Features (v2)
